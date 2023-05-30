@@ -27,8 +27,8 @@ public class Pedido {
 		direccionCliente = iddireccionCliente;
 		
 		BufferedReader br = new BufferedReader(new FileReader("./data/nPedidos.txt"));
-		String linea = br.readLine(); 
-		
+		String linea = br.readLine();
+		br.close();
 		numeroPedidos = Integer.parseInt(linea);
 		
 		idPedido = numeroPedidos+1;
@@ -87,20 +87,25 @@ public class Pedido {
 		return texto;
 		}
 	
-	public void guardarFactura(){
+	public void guardarFactura() throws PedidoExcedidoException{
+		
+		if(getPrecioTotalPedido() > 150000) {
+			throw new PedidoExcedidoException(getPrecioTotalPedido());
+		}
+		
 		try{
 		File archivo = new File("./data/facturas/"+getIdPedido()+".txt");
 		FileWriter escritor = new FileWriter(archivo);
 		
 		ArrayList<String> texto = generarTextoFactura();
-		
+
 		for(int x = 0; x < texto.size(); x++) {
 		escritor.write(texto.get(x));
 		}
 		escritor.close();
 		File conteo = new File("./data/nPedidos.txt");
 		FileWriter escritor2 = new FileWriter(conteo);
-		escritor2.write(this.idPedido);
+		escritor2.write(String.valueOf(this.idPedido));
 		escritor2.close();
 		}
 		catch(IOException e) {

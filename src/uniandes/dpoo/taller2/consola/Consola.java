@@ -1,10 +1,13 @@
 package uniandes.dpoo.taller2.consola;
 import uniandes.dpoo.taller2.modelo.Pedido;
+import uniandes.dpoo.taller2.modelo.PedidoExcedidoException;
 import uniandes.dpoo.taller2.modelo.Producto;
 import uniandes.dpoo.taller2.modelo.ProductoAjustado;
 import uniandes.dpoo.taller2.modelo.ProductoMenu;
+import uniandes.dpoo.taller2.modelo.ProductoRepetidoException;
 import uniandes.dpoo.taller2.modelo.Combo;
 import uniandes.dpoo.taller2.modelo.Ingrediente;
+import uniandes.dpoo.taller2.modelo.IngredienteRepetidoException;
 import uniandes.dpoo.taller2.procesamiento.Restaurante;
 
 import java.io.BufferedReader;
@@ -54,7 +57,7 @@ public class Consola{
 		return null;
 	}
 	
-	public static void ejecutarAplicacion()
+	public static void ejecutarAplicacion() throws ProductoRepetidoException, IngredienteRepetidoException, PedidoExcedidoException
 	{
 		System.out.println("Bienvenido al restaurante");
 		ejecutarCargaInformacion();
@@ -101,7 +104,7 @@ public class Consola{
 				
 		}
 	
-	public static void ejecutarCargaInformacion() {
+	public static void ejecutarCargaInformacion() throws ProductoRepetidoException, IngredienteRepetidoException {
 		
 		File archivoIngredientes = new File("./data/ingredientes.txt");
 		
@@ -111,7 +114,7 @@ public class Consola{
 		
 		restaurante.cargarInformacionRestaurante( archivoIngredientes, archivoMenu, archivoCombo);
 		
-		ArrayList<Producto> menuRestaurante = restaurante.getMenuBase();
+		ArrayList<ProductoMenu> menuRestaurante = restaurante.getMenuBase();
 		
 		ArrayList<Combo> menuCombos = restaurante.getCombos();
 		
@@ -197,7 +200,7 @@ public class Consola{
 		}
 	}
 	
-	public static void ejecutarCerrarYGuardarPedido() {
+	public static void ejecutarCerrarYGuardarPedido() throws PedidoExcedidoException {
 		
 		restaurante.cerrarYGuardarPedido();
 	}
@@ -220,7 +223,8 @@ public class Consola{
 				
 				linea = br.readLine();
 				
-			}	
+			}
+			br.close();
 			System.out.println(texto);
 				
 		} catch (FileNotFoundException e) {
@@ -230,7 +234,7 @@ public class Consola{
 
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ProductoRepetidoException, IngredienteRepetidoException, PedidoExcedidoException {
 		ejecutarAplicacion();
 	}
 	

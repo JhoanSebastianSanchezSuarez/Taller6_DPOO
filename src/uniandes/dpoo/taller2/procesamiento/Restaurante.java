@@ -7,13 +7,16 @@ import java.util.ArrayList;
 
 import uniandes.dpoo.taller2.modelo.Producto;
 import uniandes.dpoo.taller2.modelo.ProductoMenu;
+import uniandes.dpoo.taller2.modelo.ProductoRepetidoException;
 import uniandes.dpoo.taller2.modelo.Combo;
 import uniandes.dpoo.taller2.modelo.Ingrediente;
+import uniandes.dpoo.taller2.modelo.IngredienteRepetidoException;
 import uniandes.dpoo.taller2.modelo.Pedido;
+import uniandes.dpoo.taller2.modelo.PedidoExcedidoException;
 
 public class Restaurante {
 	
-	public static ArrayList<Producto> menu = new ArrayList<Producto>();
+	public static ArrayList<ProductoMenu> menu = new ArrayList<ProductoMenu>();
 	
 	public static ArrayList<Combo> combos = new ArrayList<Combo>();
 	
@@ -21,7 +24,7 @@ public class Restaurante {
 	
 	public static Pedido pedidoActual = null;
 	
-	private void cargarMenu(File archivoMenu){
+	private void cargarMenu(File archivoMenu) throws ProductoRepetidoException{
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoMenu))) {
 			String linea = br.readLine();
@@ -36,6 +39,9 @@ public class Restaurante {
 				
 				ProductoMenu agregadoproducto = new ProductoMenu(nproducto, valorproducto);
 				
+				if(verificarDobleProducto(agregadoproducto)) {
+					throw new ProductoRepetidoException(agregadoproducto);
+				}
 				menu.add(agregadoproducto);
 				
 				linea = br.readLine();
@@ -68,7 +74,7 @@ public class Restaurante {
 				Combo comboAgregado = new Combo(ndescuento, nproducto);
 				
 				for(int i = 2; i<valores.length; i++) {
-					Producto productoParaCombo = buscarProductoMenuNombre(menu, valores[i]);
+					ProductoMenu productoParaCombo = buscarProductoMenuNombre(menu, valores[i]);
 					comboAgregado.agregarItemACombo(productoParaCombo);
 				}
 				
@@ -85,7 +91,7 @@ public class Restaurante {
 		}
 	}
 	
-	private void cargarIngredientes(File archivoIngredientes) {
+	private void cargarIngredientes(File archivoIngredientes) throws IngredienteRepetidoException {
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(archivoIngredientes))) {
 			String linea = br.readLine();
@@ -99,6 +105,10 @@ public class Restaurante {
 				int valorproducto = Integer.parseInt(valores[1]);
 				
 				Ingrediente agregadoingrediente = new Ingrediente(nproducto, valorproducto);
+				
+				if (verificarDobleIngrediente(agregadoingrediente)) {
+					throw new IngredienteRepetidoException(agregadoingrediente);
+				}
 				
 				ingredientes.add(agregadoingrediente);
 				
@@ -115,14 +125,14 @@ public class Restaurante {
 		}
 	}
 	
-	private Producto buscarProductoMenuNombre(ArrayList<Producto> listaProductos, String nombre) {
+	private ProductoMenu buscarProductoMenuNombre(ArrayList<ProductoMenu> menu2, String nombre) {
 		
-		Producto elProducto = null;
+		ProductoMenu elProducto = null;
 		
 		
-		for(int i = 0; i < listaProductos.size() && elProducto == null ; i ++){
+		for(int i = 0; i < menu2.size() && elProducto == null ; i ++){
 			
-			Producto unProducto = listaProductos.get(i);
+			ProductoMenu unProducto = menu2.get(i);
 			String unProductoName = unProducto.getNombre();
 
 			if(unProductoName.equals(nombre)){
@@ -132,7 +142,7 @@ public class Restaurante {
 		}
 	return elProducto;}
 	
-	public ArrayList<Producto> getMenuBase(){
+	public ArrayList<ProductoMenu> getMenuBase(){
 		return Restaurante.menu;
 	}
 	
@@ -144,7 +154,7 @@ public class Restaurante {
 		return Restaurante.ingredientes;
 	}
 	
-	public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos) {
+	public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos) throws ProductoRepetidoException, IngredienteRepetidoException {
 		
 		cargarIngredientes(archivoIngredientes);
 		cargarMenu(archivoMenu);
@@ -157,7 +167,7 @@ public class Restaurante {
 		
 	}
 	
-	public void cerrarYGuardarPedido() {
+	public void cerrarYGuardarPedido() throws PedidoExcedidoException {
 		
 		pedidoActual.guardarFactura();
 		
@@ -165,9 +175,34 @@ public class Restaurante {
 	
 	public Pedido getPedidoEnCurso() {
 		
-		return this.pedidoActual;
+		return Restaurante.pedidoActual;
 	}
 	
+	public boolean verificarDobleIngrediente(Ingrediente ingrediente) {
+		boolean rta = false;
+		
+		for (Ingrediente aComparar: ingredientes) {
+			if (rta == false) {
+				if (aComparar.equals(ingrediente)) {
+					rta= true;
+				}
+			}
+		}
+		return rta;
+	}
+	
+	public boolean verificarDobleProducto(ProductoMenu producto) {
+		boolean rta = false;
+		
+		for (ProductoMenu aComparar: menu) {
+			if (rta == false) {
+				if (producto.equals(aComparar)) {
+					rta = true;
+				}
+			}
+		}
+		return rta;
+	}
 	public Restaurante() {
 
 	}
