@@ -47,7 +47,7 @@ public class Pedido {
 		
 		}
 	
-	private int getPrecioNetoPedido() {
+	public int getPrecioNetoPedido() {
 		
 		int totalneto = 0;
 		for(int i=0; i<itemsPedido.size(); i++){
@@ -56,21 +56,21 @@ public class Pedido {
 		return totalneto;
 		}
 	
-	private int getPrecioIVAPedido() {
+	public int getPrecioIVAPedido() {
 		
 		int precioIVA = getPrecioNetoPedido()*19/100;
 		
 		return precioIVA;
 		}
 	
-	private int getPrecioTotalPedido() {
+	public int getPrecioTotalPedido() {
 		
 		int totalpedido = getPrecioIVAPedido()+ getPrecioNetoPedido();
 		
 		return totalpedido;
 		}
 	
-	private ArrayList<String> generarTextoFactura() {
+	public ArrayList<String> generarTextoFactura() {
 		
 		ArrayList<String> texto = new ArrayList<String>();
 		texto.add("Restaurante\n");

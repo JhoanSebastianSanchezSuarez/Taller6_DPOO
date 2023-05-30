@@ -42,8 +42,8 @@ public class ProductoAjustado implements Producto{
 		//Elimina un ingrediente si no esta ya en eliminaciones o tampoco en adiciones
 		// si ya esta en adiciones lo saca de la lista de adiciones
 		if (Adiciones.contains(eliminacion)) {
-			int i = Eliminaciones.indexOf(eliminacion);
-			Eliminaciones.remove(i);
+			int i = Adiciones.indexOf(eliminacion);
+			Adiciones.remove(i);
 			
 		}
 		else if (!Eliminaciones.contains(eliminacion)) {
@@ -80,7 +80,7 @@ public class ProductoAjustado implements Producto{
 		if (Adiciones.size()>0) {
 			for(int x=0; x<Adiciones.size(); x++) {
 				tempa += (Adiciones.get(x).getNombre());
-				if ((Adiciones.size()!= 1) || (Adiciones.size()!= x)){
+				if ((Adiciones.size()!= 1) && (Adiciones.size()!= x+1)){
 					tempa += ", ";
 				}
 			}
@@ -88,12 +88,12 @@ public class ProductoAjustado implements Producto{
 		if (Eliminaciones.size()>0) {
 			for(int x=0; x<Eliminaciones.size();x++) {
 				tempb += (Eliminaciones.get(x).getNombre());
-				if ((Eliminaciones.size()!= 1) || (Eliminaciones.size()!= x)){
+				if ((Eliminaciones.size()!= 1) && (Eliminaciones.size()!= x+1)){
 					tempb += ", ";
 				}
 			}
 		}
-		if ((Adiciones.size()>0) || (Eliminaciones.size()>0)) {
+		if ((Adiciones.size()>0) && (Eliminaciones.size()>0)) {
 			
 			fin = tempa+"/"+tempb;
 		}
