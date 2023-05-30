@@ -1,0 +1,9 @@
+Restaurante
+Pedido: 3
+Cliente: Jhoan Sanchez
+Direccion: Calle 9 #9-9
+--------Productos--------
+$15000 wrap de pollo
+Total neto: 15000
+IVA: 2850
+Total: 17850

@@ -1,0 +1,9 @@
+Restaurante
+Pedido: 5
+Cliente: Johana Lopez
+Direccion: Cr 10 #22-45
+--------Productos--------
+$5500 papas en casco medianas modificado (Adicion de /Sin lechuga, )
+Total neto: 5500
+IVA: 1045
+Total: 6545

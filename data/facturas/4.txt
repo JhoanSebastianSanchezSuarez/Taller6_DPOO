@@ -1,0 +1,9 @@
+Restaurante
+Pedido: 4
+Cliente: Andrea Perez
+Direccion: Calle 9 #10-10
+--------Productos--------
+$24500 criolla modificado (Adicion de huevo, /Sin )
+Total neto: 24500
+IVA: 4655
+Total: 29155
