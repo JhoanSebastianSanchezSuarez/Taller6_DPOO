@@ -1,5 +1,7 @@
 package uniandes.dpoo.taller2.modelo;
 
+import java.util.ArrayList;
+
 public class Ingrediente {
 	
 	private String nombre;
@@ -23,4 +25,20 @@ public class Ingrediente {
 		
 		return costoAdicional;
 	}
+	
+	public boolean equals(Ingrediente ingrediente) {
+		
+		boolean rta = true;
+		
+		if(!(ingrediente.getNombre().equals(this.getNombre()))) {
+			rta = false;
+		}
+		
+		if(!(ingrediente.getCostoAdicional()==(this.getCostoAdicional()))){
+			rta = false;
+		}
+		
+		return rta;
+	}
+
 }

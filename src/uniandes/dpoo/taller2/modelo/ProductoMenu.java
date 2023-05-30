@@ -33,5 +33,19 @@ public class ProductoMenu implements Producto
 		
 		return "Nombre: "+this.Nombre+ "Precio base: "+this.PrecioBase;
 	}
+	
+	public boolean equals(ProductoMenu productoComparado) {
+		boolean rta = true;
+		
+		if(!(this.getNombre().equals(productoComparado.getNombre()))) {
+			rta = false;
+		}
+		
+		if(!(this.getPrecio()==productoComparado.getPrecio())) {
+			rta = false;
+		}
+	
+		return rta;
+	}
 
 }
